@@ -71,7 +71,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const span = document.createElement('span');
     span.classList.add('todo-text');
     span.setAttribute('contenteditable', 'true');
-    span.textContent = todoData.text;
+    
+    // 改行を処理して、innerHTML にセット
+    span.innerHTML = convertNewlinesToBr(todoData.text);  // 改行を <br> タグに変換
+
     span.setAttribute('data-id', todoData.id);
 
     const deleteButton = document.createElement('button');
@@ -112,6 +115,11 @@ document.addEventListener('DOMContentLoaded', () => {
     return todoCard;
   }
 
+  // 改行を <br> タグに変換する関数
+  function convertNewlinesToBr(text) {
+    return text.replace(/\n/g, '<br>'); // \n を <br> に変換
+  }
+
   // localStorage に保存する関数
   function saveTodo(todoData) {
     const todos = JSON.parse(localStorage.getItem('todos') || '[]');
@@ -127,9 +135,10 @@ document.addEventListener('DOMContentLoaded', () => {
     todoCards.forEach(card => {
       const checkbox = card.querySelector('input[type="checkbox"]');
       const span = card.querySelector('.todo-text');
+      // 編集後のテキストも <br> タグに変換して保存
       todos.push({
         id: span.getAttribute('data-id'),
-        text: span.textContent,
+        text: span.innerHTML,  // 改行を <br> タグとして保存
         completed: checkbox.checked
       });
     });
@@ -153,4 +162,5 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
+
   
