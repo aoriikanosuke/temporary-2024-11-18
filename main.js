@@ -107,6 +107,13 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
+    // 編集後の内容を保存するためにblurイベントを追加
+    span.addEventListener('blur', () => {
+      // 編集が終了したら、その内容をlocalStorageに保存
+      todoData.text = span.innerHTML; // 編集されたテキスト
+      saveTodosToLocalStorage(); // localStorageを更新
+    });
+
     // 作成した要素をカードに追加
     todoCard.appendChild(checkbox);
     todoCard.appendChild(span);
@@ -162,5 +169,3 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
-
-  
